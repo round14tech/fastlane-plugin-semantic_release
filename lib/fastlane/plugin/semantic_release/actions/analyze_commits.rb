@@ -230,6 +230,12 @@ module Fastlane
             codepush_friendly: codepush_friendly
           )
 
+          next if Helper::SemanticReleaseHelper.should_exclude_commit(
+            commit_scope: commit[:scope],
+            include_scopes: params[:include_scopes],
+            ignore_scopes: params[:ignore_scopes]
+          )
+
           if commit[:release] == "major" || commit[:is_breaking_change]
             next_major += 1
             next_minor = 0
